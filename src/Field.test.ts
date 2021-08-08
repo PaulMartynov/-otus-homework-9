@@ -92,3 +92,63 @@ describe("testing updateY function", () => {
     expect(table.querySelectorAll("tr")).toHaveLength(1);
   });
 });
+
+describe("testing setAlive function", () => {
+  test("is a function", () => {
+    expect(Field.setAlive).toBeInstanceOf(Function);
+  });
+  test("is set cell alive", () => {
+    const cell = document.createElement("td");
+    Field.setAlive(cell);
+    expect(cell.getAttribute("class")).toBe("alive");
+    expect(cell.getAttribute("style")).toBe(
+      "background-color:black; height:15px; width:15px;"
+    );
+  });
+});
+
+describe("testing setDead function", () => {
+  test("is a function", () => {
+    expect(Field.setDead).toBeInstanceOf(Function);
+  });
+  test("is set cell dead", () => {
+    const cell = document.createElement("td");
+    Field.setDead(cell);
+    expect(cell.getAttribute("class")).toBe("dead");
+    expect(cell.getAttribute("style")).toBe(
+      "background-color:#FFFFFF; height:15px; width:15px;"
+    );
+  });
+});
+
+describe("testing setDoomed function", () => {
+  test("is a function", () => {
+    expect(Field.setDoomed).toBeInstanceOf(Function);
+  });
+  test("is set cell doomed", () => {
+    const cell = document.createElement("td");
+    Field.setDoomed(cell);
+    expect(cell.getAttribute("class")).toBe("doomed");
+    expect(cell.getAttribute("style")).toBe(
+      "background-color:blue; height:15px; width:15px;"
+    );
+  });
+});
+
+describe("testing clickOnCell function", () => {
+  test("is a function", () => {
+    expect(Field.clickOnCell).toBeInstanceOf(Function);
+  });
+  test("is set cell as alive", () => {
+    const cell = document.createElement("td");
+    cell.setAttribute("class", "dead");
+    Field.clickOnCell(cell);
+    expect(cell.getAttribute("class")).toBe("alive");
+  });
+  test("is set cell as dead", () => {
+    const cell = document.createElement("td");
+    cell.setAttribute("class", "alive");
+    Field.clickOnCell(cell);
+    expect(cell.getAttribute("class")).toBe("dead");
+  });
+});

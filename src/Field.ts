@@ -1,3 +1,35 @@
+export function setAlive(webEl: Element): void {
+  webEl.setAttribute("class", "alive");
+  webEl.setAttribute(
+    "style",
+    "background-color:black; height:15px; width:15px;"
+  );
+}
+
+export function setDead(webEl: Element): void {
+  webEl.setAttribute("class", "dead");
+  webEl.setAttribute(
+    "style",
+    "background-color:#FFFFFF; height:15px; width:15px;"
+  );
+}
+
+export function setDoomed(webEl: Element): void {
+  webEl.setAttribute("class", "doomed");
+  webEl.setAttribute(
+    "style",
+    "background-color:blue; height:15px; width:15px;"
+  );
+}
+
+export function clickOnCell(webEl: Element): void {
+  if (webEl.getAttribute("class") === "dead") {
+    setAlive(webEl);
+  } else {
+    setDead(webEl);
+  }
+}
+
 export function CreateNewCell(webEl: Element): void {
   const newCell = document.createElement("td");
   newCell.setAttribute("class", "dead");
@@ -5,6 +37,9 @@ export function CreateNewCell(webEl: Element): void {
     "style",
     "background-color:#FFFFFF; height:15px; width:15px;"
   );
+  newCell.addEventListener("click", () => {
+    clickOnCell(newCell);
+  });
   webEl.appendChild(newCell);
 }
 
