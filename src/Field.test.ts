@@ -9,11 +9,17 @@ describe("testing CreateNewCell function", () => {
     expect(tableString.querySelectorAll("td")).toHaveLength(0);
     Field.CreateNewCell(tableString);
     expect(tableString.querySelectorAll("td")).toHaveLength(1);
-    const cell = tableString.querySelector("td");
-    if (cell) {
-      // eslint-disable-next-line jest/no-conditional-expect
-      expect(cell.getAttribute("class")).toBe("dead");
-    }
+    const cell =
+      tableString.querySelector("td") || document.createElement("td");
+    expect(cell.getAttribute("class")).toBe("dead");
+  });
+  test("click on cell", () => {
+    const tableString = document.createElement("tr");
+    Field.CreateNewCell(tableString);
+    const cell =
+      tableString.querySelector("td") || document.createElement("td");
+    cell.dispatchEvent(new Event("click"));
+    expect(cell.getAttribute("class")).toBe("alive");
   });
 });
 
