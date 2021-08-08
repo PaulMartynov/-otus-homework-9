@@ -1,44 +1,67 @@
 <!DOCTYPE html>
 <html lang="en">
-<head>
-    <meta charset="UTF-8">
+  <head>
+    <meta charset="UTF-8" />
     <title>Game Of Life</title>
-</head>
-<body>
-<p>Game settings:</p>
-<div>
-<table id="settings">
-    <tr>
-        <td>
+  </head>
+  <body>
+    <p>Game settings:</p>
+    <div>
+      <table id="settings">
+        <tr>
+          <td>
             <label for="Ox">Horizontal field size:</label>
-        </td>
-        <td>
-            <input type="number" id="Ox" name="Ox" min="3" max="50" value="10" required>
-        </td>
-    </tr>
-    <tr>
-        <td>
+          </td>
+          <td>
+            <input
+              type="number"
+              id="Ox"
+              name="Ox"
+              min="3"
+              max="50"
+              value="10"
+              required
+            />
+          </td>
+        </tr>
+        <tr>
+          <td>
             <label for="Oy">Vertical field size:</label>
-        </td>
-        <td>
-            <input type="number" id="Oy" name="Oy" min="3" max="50" value="10" required>
-        </td>
-    </tr>
-    <tr>
-        <td>
+          </td>
+          <td>
+            <input
+              type="number"
+              id="Oy"
+              name="Oy"
+              min="3"
+              max="50"
+              value="10"
+              required
+            />
+          </td>
+        </tr>
+        <tr>
+          <td>
             <label for="speed">Speed:</label>
-        </td>
-        <td>
-            <input type="range" id="speed" name="speed" min="0" max="2900" value="1000">
-        </td>
-    </tr>
-</table>
-</div>
-<div style="margin-top: 5px">
-    <input type="button" id="start" value="Start game">
-</div>
-<div style="margin-top: 10px">
-    <table id="game_field"></table>
-</div>
-</body>
+          </td>
+          <td>
+            <input
+              type="range"
+              id="speed"
+              name="speed"
+              min="0"
+              max="2900"
+              value="1000"
+            />
+          </td>
+        </tr>
+      </table>
+    </div>
+    <div style="margin-top: 5px">
+      <input type="button" id="start" value="Start game" />
+    </div>
+    <div style="margin-top: 10px">
+      <table id="game_field"></table>
+    </div>
+  </body>
 </html>
