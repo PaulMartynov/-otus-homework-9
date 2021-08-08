@@ -26,3 +26,42 @@ export function CreateNewField(
   }
   webEl.setAttribute("border", "1");
 }
+
+export function updateX(webEl: Element, size: number): void {
+  const strings = webEl.querySelectorAll("tr");
+  if (!strings) {
+    return;
+  }
+  for (let i = 0; i < strings.length; i += 1) {
+    let cells = strings[i].querySelectorAll("td");
+    const diff = size - cells.length;
+    if (diff > 0) {
+      for (let j = 0; j < diff; j += 1) {
+        CreateNewCell(strings[i]);
+      }
+    } else if (diff < 0) {
+      for (let j = 0; j > diff; j -= 1) {
+        cells[cells.length - 1].remove();
+        cells = strings[i].querySelectorAll("td");
+      }
+    }
+  }
+}
+
+export function updateY(webEl: Element, size: number): void {
+  let strings = webEl.querySelectorAll("tr");
+  if (!strings) {
+    return;
+  }
+  const diff = size - strings.length;
+  if (diff > 0) {
+    for (let i = 0; i < diff; i += 1) {
+      CreateNewString(webEl, strings[0].querySelectorAll("td").length);
+    }
+  } else if (diff < 0) {
+    for (let i = 0; i > diff; i -= 1) {
+      strings[strings.length - 1].remove();
+      strings = webEl.querySelectorAll("tr");
+    }
+  }
+}
