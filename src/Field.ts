@@ -64,7 +64,7 @@ export function CreateNewField(
 
 export function updateX(webEl: Element, size: number): void {
   const strings = webEl.querySelectorAll("tr");
-  if (!strings) {
+  if (strings.length === 0) {
     return;
   }
   for (let i = 0; i < strings.length; i += 1) {
@@ -85,7 +85,7 @@ export function updateX(webEl: Element, size: number): void {
 
 export function updateY(webEl: Element, size: number): void {
   let strings = webEl.querySelectorAll("tr");
-  if (!strings) {
+  if (strings.length === 0) {
     return;
   }
   const diff = size - strings.length;

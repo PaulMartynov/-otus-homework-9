@@ -75,6 +75,12 @@ describe("testing updateX function", () => {
     Field.updateX(table, 1);
     expect(table.querySelectorAll("td")).toHaveLength(1);
   });
+  test("cells not added", () => {
+    const table = document.createElement("table");
+    expect(table.querySelectorAll("td")).toHaveLength(0);
+    Field.updateX(table, 10);
+    expect(table.querySelectorAll("td")).toHaveLength(0);
+  });
 });
 
 describe("testing updateY function", () => {
@@ -96,6 +102,12 @@ describe("testing updateY function", () => {
     expect(table.querySelectorAll("tr")).toHaveLength(3);
     Field.updateY(table, 1);
     expect(table.querySelectorAll("tr")).toHaveLength(1);
+  });
+  test("strings not added", () => {
+    const table = document.createElement("table");
+    expect(table.querySelectorAll("tr")).toHaveLength(0);
+    Field.updateY(table, 3);
+    expect(table.querySelectorAll("tr")).toHaveLength(0);
   });
 });
 

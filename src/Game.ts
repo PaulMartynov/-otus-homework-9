@@ -31,17 +31,21 @@ export class Game {
     clearInterval(<NodeJS.Timeout>this.timer);
   }
 
+  run(): void {
+    const field = GameState.getFieldMatrix(this.gameField);
+    GameState.doomNeighbours(this.gameField);
+    GameState.updateField(field);
+    if (!GameState.isAnyoneAlive(this.gameField)) {
+      alert("All cells is dead");
+      this.stop();
+    }
+  }
+
   start(): void {
     this.gameIsRunning = true;
     this.startBtn.setAttribute("value", "Stop game");
     this.timer = setInterval(() => {
-      const field = GameState.getFieldMatrix(this.gameField);
-      GameState.doomNeighbours(this.gameField);
-      GameState.updateField(field);
-      if (!GameState.isAnyoneAlive(this.gameField)) {
-        alert("All cells is dead");
-        this.stop();
-      }
+      this.run();
     }, this.gameSpeed);
   }
 }
