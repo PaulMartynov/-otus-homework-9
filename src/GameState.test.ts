@@ -62,6 +62,10 @@ describe("testing chekNeighbours function", () => {
     "<tr><td class='dead'></td><td class='alive'></td><td class='doomed'></td></tr>" +
     "<tr><td class='alive'></td><td class='dead'></td><td class='alive'></td></tr>" +
     "<tr><td class='dead'></td><td class='dead'></td><td class='alive'></td></tr>" +
+    "<tr><td class='dead'></td><td class='dead'></td><td class='dead'></td></tr>" +
+    "<tr><td class='dead'></td><td class='alive'></td><td class='dead'></td></tr>" +
+    "<tr><td class='dead'></td><td class='alive'></td><td class='dead'></td></tr>" +
+    "<tr><td class='dead'></td><td class='alive'></td><td class='dead'></td></tr>" +
     "<tr><td class='dead'></td><td class='dead'></td><td class='dead'></td></tr>";
   const fieldMatrix = GameState.getFieldMatrix(table);
   test("is a function", () => {
@@ -70,8 +74,10 @@ describe("testing chekNeighbours function", () => {
   [
     [0, 0, 2],
     [1, 0, 3],
-    [0, 3, 0],
-    [1, 3, 1],
+    [0, 3, 1],
+    [1, 3, 2],
+    [0, 5, 3],
+    [2, 5, 3],
   ].forEach(([x, y, result]) => {
     test(`for x='${x}', y='${y}' must return '${result}'`, () => {
       expect(GameState.chekNeighbours(fieldMatrix, x, y)).toBe(result);
@@ -85,20 +91,23 @@ describe("testing updateCellState function", () => {
     "<tr><td class='alive'></td><td class='alive'></td><td class='doomed'></td></tr>" +
     "<tr><td class='alive'></td><td class='alive'></td><td class='alive'></td></tr>" +
     "<tr><td class='dead'></td><td class='dead'></td><td class='alive'></td></tr>" +
-    "<tr><td class='dead'></td><td class='dead'></td><td class='dead'></td></tr>";
+    "<tr><td class='dead'></td><td class='dead'></td><td class='dead'></td></tr>" +
+    "<tr><td class='dead'></td><td class='dead'></td><td class='dead'></td></tr>" +
+    "<tr><td class='alive'></td><td class='alive'></td><td class='dead'></td></tr>" +
+    "<tr><td class='dead'></td><td class='alive'></td><td class='dead'></td></tr>";
   const fieldMatrix = GameState.getFieldMatrix(table);
   test("is a function", () => {
     expect(GameState.updateCellState).toBeInstanceOf(Function);
   });
   [
-    [1, 0, "dead"],
-    [1, 2, "dead"],
-    [2, 2, "alive"],
-    [1, 3, "dead"],
+    [1, 0, 0],
+    [1, 2, 2],
+    [2, 2, 2],
+    [1, 3, 2],
+    [0, 6, 1],
   ].forEach(([x, y, result]) => {
     test(`for x='${x}', y='${y}' cell must be '${result}'`, () => {
-      GameState.updateCellState(fieldMatrix, Number(x), Number(y));
-      expect(fieldMatrix[Number(y)][Number(x)].getAttribute("class")).toBe(
+      expect(GameState.updateCellState(fieldMatrix, Number(x), Number(y))).toBe(
         result
       );
     });
@@ -107,26 +116,34 @@ describe("testing updateCellState function", () => {
 
 describe("testing doomNeighbours function", () => {
   const table = document.createElement("table");
+  table.innerHTML = "<tr><td class='doomed'></td></tr>";
+  test("is a function", () => {
+    expect(GameState.doomNeighbours).toBeInstanceOf(Function);
+  });
+  test("is set cells as dead", () => {
+    GameState.doomNeighbours(table);
+    const deadCell = table.querySelector("td") || document.createElement("td");
+    expect(deadCell.getAttribute("class")).toBe("dead");
+  });
+});
+
+describe("testing updateField function", () => {
+  const table = document.createElement("table");
   table.innerHTML =
     "<tr><td class='alive'></td><td class='alive'></td><td class='alive'></td></tr>" +
     "<tr><td class='alive'></td><td class='alive'></td><td class='alive'></td></tr>" +
     "<tr><td class='dead'></td><td class='dead'></td><td class='alive'></td></tr>" +
-    "<tr><td class='alive'></td><td class='alive'></td><td class='dead'></td></tr>";
+    "<tr><td class='dead'></td><td class='dead'></td><td class='dead'></td></tr>" +
+    "<tr><td class='dead'></td><td class='dead'></td><td class='dead'></td></tr>" +
+    "<tr><td class='alive'></td><td class='alive'></td><td class='dead'></td></tr>" +
+    "<tr><td class='dead'></td><td class='alive'></td><td class='dead'></td></tr>";
   const fieldMatrix = GameState.getFieldMatrix(table);
   test("is a function", () => {
-    expect(GameState.doomNeighbours).toBeInstanceOf(Function);
+    expect(GameState.updateField).toBeInstanceOf(Function);
   });
-  [
-    [1, 0, "alive"],
-    [2, 1, "doomed"],
-    [1, 3, "doomed"],
-    [2, 3, "alive"],
-  ].forEach(([x, y, result]) => {
-    test(`for x='${x}' y='${y}' neighbour must be '${result}'`, () => {
-      GameState.doomNeighbours(fieldMatrix, Number(x), Number(y));
-      expect(fieldMatrix[Number(y)][Number(x) - 1].getAttribute("class")).toBe(
-        result
-      );
-    });
+  test("is mark cells as alive and doomed", () => {
+    GameState.updateField(fieldMatrix);
+    expect(table.querySelectorAll(".alive")).toHaveLength(8);
+    expect(table.querySelectorAll(".doomed")).toHaveLength(3);
   });
 });

@@ -1,7 +1,10 @@
 import * as Field from "./Field";
 
 export function isAnyoneAlive(webEl: Element): boolean {
-  return webEl.querySelectorAll(".alive").length > 0;
+  return (
+    webEl.querySelectorAll(".alive").length > 0 ||
+    webEl.querySelectorAll(".doomed").length > 0
+  );
 }
 
 export function getFieldMatrix(webEl: Element): Array<NodeListOf<Element>> {
@@ -56,39 +59,41 @@ export function updateCellState(
   field: Array<NodeListOf<Element>>,
   x: number,
   y: number
-): void {
+): number {
   const countOfNeighbours = chekNeighbours(field, x, y);
   if (countOfNeighbours === 3) {
-    Field.setAlive(field[y][x]);
+    return 1;
   }
   if (countOfNeighbours > 3 || countOfNeighbours < 2) {
-    Field.setDead(field[y][x]);
+    if (field[y][x].getAttribute("class") === "alive") {
+      return 0;
+    }
   }
-  if (
-    countOfNeighbours === 2 &&
-    field[y][x].getAttribute("class") === "alive"
-  ) {
-    Field.setAlive(field[y][x]);
-  }
+  return 2;
 }
 
-export function doomNeighbours(
-  field: Array<NodeListOf<Element>>,
-  x: number,
-  y: number
-): void {
-  for (let i = x - 1; i <= x; i += 1) {
-    if (checkCellState(field, i, y - 1) === 1) {
-      const countOfNeighbours = chekNeighbours(field, i, y - 1);
-      if (countOfNeighbours > 3 || countOfNeighbours < 2) {
-        Field.setDoomed(field[i][y - 1]);
+export function updateField(field: Array<NodeListOf<Element>>): void {
+  const aliveCells = [];
+  const doomedCells = [];
+  for (let i = 0; i < field.length; i += 1) {
+    for (let j = 0; j < field[i].length; j += 1) {
+      if (updateCellState(field, j, i) === 1) {
+        aliveCells.push(field[i][j]);
+      } else if (updateCellState(field, j, i) === 0) {
+        doomedCells.push(field[i][j]);
       }
     }
   }
-  if (checkCellState(field, x - 1, y) === 1) {
-    const countOfNeighbours = chekNeighbours(field, x - 1, y);
-    if (countOfNeighbours > 3 || countOfNeighbours < 2) {
-      Field.setDoomed(field[y][x - 1]);
-    }
-  }
+  doomedCells.forEach((cell) => {
+    Field.setDoomed(cell);
+  });
+  aliveCells.forEach((cell) => {
+    Field.setAlive(cell);
+  });
+}
+
+export function doomNeighbours(webEl: Element): void {
+  webEl.querySelectorAll(".doomed").forEach((doomed) => {
+    Field.setDead(doomed);
+  });
 }
