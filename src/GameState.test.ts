@@ -104,3 +104,29 @@ describe("testing updateCellState function", () => {
     });
   });
 });
+
+describe("testing doomNeighbours function", () => {
+  const table = document.createElement("table");
+  table.innerHTML =
+    "<tr><td class='alive'></td><td class='alive'></td><td class='alive'></td></tr>" +
+    "<tr><td class='alive'></td><td class='alive'></td><td class='alive'></td></tr>" +
+    "<tr><td class='dead'></td><td class='dead'></td><td class='alive'></td></tr>" +
+    "<tr><td class='alive'></td><td class='alive'></td><td class='dead'></td></tr>";
+  const fieldMatrix = GameState.getFieldMatrix(table);
+  test("is a function", () => {
+    expect(GameState.doomNeighbours).toBeInstanceOf(Function);
+  });
+  [
+    [1, 0, "alive"],
+    [2, 1, "doomed"],
+    [1, 3, "doomed"],
+    [2, 3, "alive"],
+  ].forEach(([x, y, result]) => {
+    test(`for x='${x}' y='${y}' neighbour must be '${result}'`, () => {
+      GameState.doomNeighbours(fieldMatrix, Number(x), Number(y));
+      expect(fieldMatrix[Number(y)][Number(x) - 1].getAttribute("class")).toBe(
+        result
+      );
+    });
+  });
+});

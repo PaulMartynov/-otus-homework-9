@@ -71,3 +71,24 @@ export function updateCellState(
     Field.setAlive(field[y][x]);
   }
 }
+
+export function doomNeighbours(
+  field: Array<NodeListOf<Element>>,
+  x: number,
+  y: number
+): void {
+  for (let i = x - 1; i <= x; i += 1) {
+    if (checkCellState(field, i, y - 1) === 1) {
+      const countOfNeighbours = chekNeighbours(field, i, y - 1);
+      if (countOfNeighbours > 3 || countOfNeighbours < 2) {
+        Field.setDoomed(field[i][y - 1]);
+      }
+    }
+  }
+  if (checkCellState(field, x - 1, y) === 1) {
+    const countOfNeighbours = chekNeighbours(field, x - 1, y);
+    if (countOfNeighbours > 3 || countOfNeighbours < 2) {
+      Field.setDoomed(field[y][x - 1]);
+    }
+  }
+}
