@@ -1,6 +1,6 @@
-| Statements                                                                     | Branches                                                                  | Functions                                                                   | Lines                                                                |
-| ------------------------------------------------------------------------------ | ------------------------------------------------------------------------- | --------------------------------------------------------------------------- | -------------------------------------------------------------------- |
-| ![Statements](https://img.shields.io/badge/statements-99.6%25-brightgreen.svg) | ![Branches](https://img.shields.io/badge/branches-100%25-brightgreen.svg) | ![Functions](https://img.shields.io/badge/functions-100%25-brightgreen.svg) | ![Lines](https://img.shields.io/badge/lines-99.6%25-brightgreen.svg) |
+| Statements                                                                      | Branches                                                                    | Functions                                                                   | Lines                                                                 |
+| ------------------------------------------------------------------------------- | --------------------------------------------------------------------------- | --------------------------------------------------------------------------- | --------------------------------------------------------------------- |
+| ![Statements](https://img.shields.io/badge/statements-99.02%25-brightgreen.svg) | ![Branches](https://img.shields.io/badge/branches-98.63%25-brightgreen.svg) | ![Functions](https://img.shields.io/badge/functions-100%25-brightgreen.svg) | ![Lines](https://img.shields.io/badge/lines-99.02%25-brightgreen.svg) |
 
 # Игра «Жизнь»
 

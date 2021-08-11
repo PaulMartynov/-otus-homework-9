@@ -1,7 +1,7 @@
 import * as GameState from "./GameState";
 
 const MIN_GAME_SPEED = 3000; // ms
-const LEN_OF_GENERATIONS = 2; // количество предыдущих поколений для определения повторного состояния поля
+export const LEN_OF_GENERATIONS = 2; // количество предыдущих поколений для определения повторного состояния поля
 
 export class Game {
   gameField: Element;
@@ -38,7 +38,7 @@ export class Game {
       for (let j = 0; j < field[i].length; j += 1) {
         cells.push(<string>field[i][j].getAttribute("class"));
       }
-      elementsState.unshift(cells);
+      elementsState.push(cells);
     }
     this.generations.unshift(elementsState);
     if (this.generations.length > LEN_OF_GENERATIONS) {
@@ -60,7 +60,8 @@ export class Game {
     if (!GameState.isAnyoneAlive(this.gameField)) {
       alert("All cells is dead");
       this.stop();
-    } else if (GameState.checkListOfField(field, this.generations)) {
+    }
+    if (GameState.checkListOfField(field, this.generations)) {
       alert("Game repeating of some of previous generations");
       this.stop();
     }

@@ -1,5 +1,5 @@
 import * as GameState from "./GameState";
-import { Game } from "./Game";
+import { Game, LEN_OF_GENERATIONS } from "./Game";
 
 describe("testing Game class", () => {
   test("is a function", () => {
@@ -101,5 +101,26 @@ describe("testing run function", () => {
     expect(GameState.updateField).toBeCalled();
     expect(GameState.isAnyoneAlive).toBeCalledWith(table);
     expect(game.stop).toBeCalled();
+  });
+});
+
+describe("testing addNewGeneration function", () => {
+  test("is a function", () => {
+    expect(Game.prototype.addNewGeneration).toBeInstanceOf(Function);
+  });
+  test("is adding last field state", () => {
+    const table = document.createElement("table");
+    table.innerHTML =
+      "<tr><td class='dead'></td><td class='dead'></td><td class='dead'></td></tr>" +
+      "<tr><td class='dead'></td><td class='dead'></td><td class='dead'></td></tr>" +
+      "<tr><td class='dead'></td><td class='dead'></td><td class='dead'></td></tr>";
+    const fieldState = GameState.getFieldMatrix(table);
+    const game = new Game(table, document.createElement("input"), 2000);
+    expect(game.generations).toHaveLength(0);
+    game.addNewGeneration(fieldState);
+    expect(game.generations).toHaveLength(1);
+    game.addNewGeneration(fieldState);
+    game.addNewGeneration(fieldState);
+    expect(game.generations).toHaveLength(LEN_OF_GENERATIONS);
   });
 });

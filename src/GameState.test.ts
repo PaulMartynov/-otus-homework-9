@@ -147,3 +147,60 @@ describe("testing updateField function", () => {
     expect(table.querySelectorAll(".doomed")).toHaveLength(3);
   });
 });
+
+describe("testing equals function", () => {
+  const table = document.createElement("table");
+  table.innerHTML =
+    "<tr><td class='alive'></td><td class='dead'></td><td class='alive'></td></tr>" +
+    "<tr><td class='alive'></td><td class='alive'></td><td class='alive'></td></tr>";
+  const fieldMatrix = GameState.getFieldMatrix(table);
+  test("is a function", () => {
+    expect(GameState.equals).toBeInstanceOf(Function);
+  });
+  test("must return true", () => {
+    const state: string[][] = [
+      ["alive", "dead", "alive"],
+      ["alive", "alive", "alive"],
+    ];
+    expect(GameState.equals(fieldMatrix, state)).toBeTruthy();
+  });
+  test("must return false", () => {
+    const state: string[][] = [
+      ["alive", "dead", "alive"],
+      ["alive", "dead", "alive"],
+    ];
+    expect(GameState.equals(fieldMatrix, state)).toBeFalsy();
+  });
+  test("must return false if trowing exception", () => {
+    const state: string[][] = [
+      ["alive", "dead"],
+      ["alive", "alive"],
+    ];
+    expect(GameState.equals(fieldMatrix, state)).toBeFalsy();
+  });
+});
+
+describe("testing checkListOfField function", () => {
+  const table = document.createElement("table");
+  table.innerHTML =
+    "<tr><td class='alive'></td><td class='dead'></td><td class='alive'></td></tr>" +
+    "<tr><td class='alive'></td><td class='alive'></td><td class='alive'></td></tr>";
+  const fieldMatrix = GameState.getFieldMatrix(table);
+  test("is a function", () => {
+    expect(GameState.checkListOfField).toBeInstanceOf(Function);
+  });
+  test("must return true", () => {
+    const state: string[][] = [
+      ["alive", "dead", "alive"],
+      ["alive", "alive", "alive"],
+    ];
+    expect(GameState.checkListOfField(fieldMatrix, [state])).toBeTruthy();
+  });
+  test("must return false", () => {
+    const state: string[][] = [
+      ["alive", "dead", "alive"],
+      ["alive", "dead", "alive"],
+    ];
+    expect(GameState.checkListOfField(fieldMatrix, [state])).toBeFalsy();
+  });
+});

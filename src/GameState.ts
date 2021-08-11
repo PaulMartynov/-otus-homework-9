@@ -118,10 +118,9 @@ export function checkListOfField(
   field: Array<NodeListOf<Element>>,
   listOfFields: Array<string[][]>
 ): boolean {
-  for (let i = 0; i < listOfFields.length; i += 1) {
-    if (!equals(field, listOfFields[i])) {
-      return false;
-    }
-  }
-  return true;
+  const state: boolean[] = [];
+  listOfFields.forEach((item) => {
+    state.push(equals(field, item));
+  });
+  return state.includes(true);
 }
