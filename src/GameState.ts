@@ -46,8 +46,6 @@ export function chekNeighbours(
   let countOfAlive = 0;
   for (let i = x - 1; i <= x + 1; i += 1) {
     countOfAlive += checkCellState(field, i, y - 1);
-  }
-  for (let i = x - 1; i <= x + 1; i += 1) {
     countOfAlive += checkCellState(field, i, y + 1);
   }
   countOfAlive += checkCellState(field, x - 1, y);
@@ -96,4 +94,34 @@ export function doomNeighbours(webEl: Element): void {
   webEl.querySelectorAll(".doomed").forEach((doomed) => {
     Field.setDead(doomed);
   });
+}
+
+export function equals(
+  field: Array<NodeListOf<Element>>,
+  newField: string[][]
+): boolean {
+  try {
+    for (let i = 0; i < field.length; i += 1) {
+      for (let j = 0; j < field[i].length; j += 1) {
+        if (field[i][j].getAttribute("class") !== newField[i][j]) {
+          return false;
+        }
+      }
+    }
+  } catch (err) {
+    return false;
+  }
+  return true;
+}
+
+export function checkListOfField(
+  field: Array<NodeListOf<Element>>,
+  listOfFields: Array<string[][]>
+): boolean {
+  for (let i = 0; i < listOfFields.length; i += 1) {
+    if (!equals(field, listOfFields[i])) {
+      return false;
+    }
+  }
+  return true;
 }
